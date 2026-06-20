@@ -89,7 +89,7 @@ export function ProductGrid({ onAddToCart }: ProductGridProps) {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <span className="text-purple-600 font-extrabold text-lg">
-                  ${prod.price.toFixed(2)}
+                  ₹{prod.price.toFixed(2)}
                 </span>
                 <span className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 text-lg font-bold group-hover:bg-purple-600 group-hover:text-white transition">
                   +

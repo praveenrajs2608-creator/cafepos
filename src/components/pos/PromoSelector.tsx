@@ -117,8 +117,8 @@ export function PromoSelector({ subtotal, onApplyCoupon, appliedCode, onClose }:
                         <p className="font-black text-slate-800 text-sm">{coupon.code}</p>
                         {coupon.minSpend > 0 && (
                           <p className="text-[10px] text-slate-400 font-semibold mt-0.5">
-                            Min spend ${coupon.minSpend.toFixed(2)}
-                            {!eligible && <span className="text-amber-500 ml-1">(need ${(coupon.minSpend - subtotal).toFixed(2)} more)</span>}
+                            Min spend ₹{coupon.minSpend.toFixed(2)}
+                            {!eligible && <span className="text-amber-500 ml-1">(need ₹{(coupon.minSpend - subtotal).toFixed(2)} more)</span>}
                           </p>
                         )}
                         <p className="text-[10px] text-slate-400 mt-0.5">
@@ -130,7 +130,7 @@ export function PromoSelector({ subtotal, onApplyCoupon, appliedCode, onClose }:
                     {/* Discount badge */}
                     <div className="text-right">
                       <span className={`text-base font-black ${isSelected ? 'text-purple-600' : 'text-green-600'}`}>
-                        {coupon.type === 'PERCENTAGE' ? `${coupon.discount}% off` : `$${coupon.discount.toFixed(2)} off`}
+                        {coupon.type === 'PERCENTAGE' ? `${coupon.discount}% off` : `₹${coupon.discount.toFixed(2)} off`}
                       </span>
                     </div>
                   </div>

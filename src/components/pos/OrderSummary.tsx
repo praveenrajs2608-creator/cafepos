@@ -60,7 +60,7 @@ export function OrderSummary({ orders, onSelectOrder }: OrderSummaryProps) {
                   {order.table ? `Table: ${order.table.name}` : 'Take Away'} • {new Date(order.createdAt).toLocaleTimeString()}
                 </span>
               </div>
-              <span className="font-black text-purple-600">${order.total.toFixed(2)}</span>
+              <span className="font-black text-purple-600">₹{order.total.toFixed(2)}</span>
             </button>
           ))
         )}

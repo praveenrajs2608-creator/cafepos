@@ -118,7 +118,7 @@ export function PaymentPanel({ total, onPay, onClose, onMethodChange }: PaymentP
           <div className="bg-slate-50 p-4 rounded-xl space-y-2.5">
             <div className="flex justify-between text-sm text-slate-500 font-semibold">
               <span>Amount Due</span>
-              <span className="font-black text-slate-800">${total.toFixed(2)}</span>
+              <span className="font-black text-slate-800">₹{total.toFixed(2)}</span>
             </div>
 
             {selectedMethod === 'CASH' && (
@@ -134,7 +134,7 @@ export function PaymentPanel({ total, onPay, onClose, onMethodChange }: PaymentP
                 </div>
                 <div className="flex justify-between text-sm font-semibold border-t border-slate-200 pt-2.5">
                   <span className="text-slate-500">Change Due</span>
-                  <span className="text-purple-600 font-black text-base">${changeDue.toFixed(2)}</span>
+                  <span className="text-purple-600 font-black text-base">₹{changeDue.toFixed(2)}</span>
                 </div>
               </>
             )}
@@ -155,7 +155,7 @@ export function PaymentPanel({ total, onPay, onClose, onMethodChange }: PaymentP
             onClick={handleAuthorize}
             className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-black transition shadow-lg shadow-purple-100"
           >
-            Authorize ${total.toFixed(2)} Transaction
+            Authorize ₹{total.toFixed(2)} Transaction
           </button>
         </div>
       </div>

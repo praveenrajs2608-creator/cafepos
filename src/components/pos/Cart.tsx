@@ -63,7 +63,7 @@ export function Cart({
               <div className="flex justify-between items-start">
                 <div>
                   <h4 className="font-bold text-slate-800">{item.name}</h4>
-                  <span className="text-sm text-slate-400 font-semibold">${item.price.toFixed(2)}</span>
+                  <span className="text-sm text-slate-400 font-semibold">₹{item.price.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -99,21 +99,21 @@ export function Cart({
       <div className="p-6 border-t border-slate-100 bg-slate-50/50 space-y-3">
         <div className="flex justify-between text-sm text-slate-500 font-semibold">
           <span>Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
+          <span>₹{subtotal.toFixed(2)}</span>
         </div>
         {discountAmount > 0 && (
           <div className="flex justify-between text-sm text-green-600 font-bold">
             <span>Discount</span>
-            <span>-${discountAmount.toFixed(2)}</span>
+            <span>-₹{discountAmount.toFixed(2)}</span>
           </div>
         )}
         <div className="flex justify-between text-sm text-slate-500 font-semibold">
-          <span>Taxes (8%)</span>
-          <span>${tax.toFixed(2)}</span>
+          <span>Taxes (GST 5%)</span>
+          <span>₹{tax.toFixed(2)}</span>
         </div>
         <div className="flex justify-between text-lg text-slate-800 font-extrabold pt-2 border-t border-slate-100">
           <span>Total</span>
-          <span className="text-purple-600 font-black">${total.toFixed(2)}</span>
+          <span className="text-purple-600 font-black">₹{total.toFixed(2)}</span>
         </div>
 
         {/* Action buttons */}
