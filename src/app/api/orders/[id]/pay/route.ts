@@ -30,12 +30,13 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       data: { kitchenStage: 'TO_COOK', itemDone: false },
     });
 
-    // 3. Mark order COMPLETED + stamp sentToKitchenAt (payment = kitchen dispatch)
+    // 3. Mark order SENT_TO_KITCHEN + stamp sentToKitchenAt (payment = kitchen dispatch)
+    //    The KDS will then advance it: SENT_TO_KITCHEN → PREPARING → COMPLETED
     const now = new Date();
     const order = await prisma.order.update({
       where: { id: orderId },
       data: {
-        status: 'COMPLETED',
+        status: 'SENT_TO_KITCHEN',
         sentToKitchenAt: now,
       },
       include: {

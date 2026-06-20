@@ -33,7 +33,7 @@ export class OrderService {
 
     // 2. Upsert customer if name + phone provided
     let customerId: string | undefined;
-    if (data.customerName && data.customerPhone) {
+    if (data.customerName && data.customerPhone && data.customerPhone.trim().length > 0) {
       const customer = await prisma.customer.upsert({
         where: { phone: data.customerPhone },
         update: {

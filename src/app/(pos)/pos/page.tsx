@@ -197,6 +197,13 @@ export default function POSRegisterPage() {
         payload: { total: totals.total },
       });
 
+      // Notify the KDS tab instantly (same machine) to re-fetch orders
+      if (typeof window !== 'undefined') {
+        const kdsBc = new BroadcastChannel('cafe-pos-kds');
+        kdsBc.postMessage({ type: 'ORDER_SENT', orderId: payData.order.id });
+        kdsBc.close();
+      }
+
       clearCart();
       setSelectedTable(null);
       setActiveCoupon(null);

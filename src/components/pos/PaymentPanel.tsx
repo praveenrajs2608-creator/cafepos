@@ -31,23 +31,12 @@ export function PaymentPanel({ total, onPay, onClose, onMethodChange }: PaymentP
   }, [selectedMethod, onMethodChange]);
 
   const handleAuthorize = () => {
-    let valid = true;
     setNameError('');
     setPhoneError('');
 
-    if (!custName.trim()) {
-      setNameError('Customer name is required');
-      valid = false;
-    }
-    if (!custPhone.trim()) {
-      setPhoneError('Phone number is required');
-      valid = false;
-    }
-    if (!valid) return;
-
     onPay(selectedMethod, total, {
-      name: custName.trim(),
-      phone: custPhone.trim(),
+      name: custName.trim() || 'Walk-in Customer',
+      phone: custPhone.trim() || '',
       email: custEmail.trim() || undefined,
     });
   };
@@ -64,11 +53,11 @@ export function PaymentPanel({ total, onPay, onClose, onMethodChange }: PaymentP
         <div className="p-5 space-y-5 overflow-y-auto max-h-[80vh]">
           {/* Customer Info — mandatory */}
           <div className="space-y-3">
-            <p className="text-xs font-black text-slate-500 uppercase tracking-wider">Customer Info <span className="text-red-400">*Required</span></p>
+            <p className="text-xs font-black text-slate-500 uppercase tracking-wider">Customer Info <span className="text-slate-400">(Optional)</span></p>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-500">Full Name <span className="text-red-400">*</span></label>
+                <label className="text-xs font-bold text-slate-500">Full Name</label>
                 <input
                   type="text"
                   placeholder="John Doe"
@@ -81,7 +70,7 @@ export function PaymentPanel({ total, onPay, onClose, onMethodChange }: PaymentP
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-500">Phone <span className="text-red-400">*</span></label>
+                <label className="text-xs font-bold text-slate-500">Phone</label>
                 <input
                   type="tel"
                   placeholder="+1 555 0000"
