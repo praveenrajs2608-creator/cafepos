@@ -5,18 +5,19 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get('categoryId');
+    const cuisineId  = searchParams.get('cuisineId');
 
-    const filter: any = {};
-    if (categoryId) {
-      filter.categoryId = categoryId;
-    }
+    const filter: any = { isActive: true };
+    if (categoryId) filter.categoryId = categoryId;
+    if (cuisineId)  filter.cuisineId  = cuisineId;
 
     const products = await prisma.product.findMany({
       where: filter,
-      include: { category: true },
+      include: { category: true, cuisine: true },
       orderBy: { name: 'asc' },
     });
 
+    console.log("Products found:", products.length);
     return NextResponse.json({ products });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, price, description, categoryId, image } = await req.json();
+    const { name, price, description, categoryId, cuisineId, image } = await req.json();
 
     if (!name || price === undefined || !categoryId) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -37,6 +38,7 @@ export async function POST(req: NextRequest) {
         price: parseFloat(price),
         description,
         categoryId,
+        cuisineId: cuisineId || null,
         image,
       },
     });

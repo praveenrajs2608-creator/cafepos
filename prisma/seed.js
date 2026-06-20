@@ -2,6 +2,36 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+const productsData = [
+  // Coffee
+  { name: 'Espresso',          price: 80,  catName: 'Coffee',      cuisineName: 'Italian',     desc: 'Strong single-shot espresso',            kdsEnabled: true },
+  { name: 'Cappuccino',        price: 120, catName: 'Coffee',      cuisineName: 'Italian',     desc: 'Espresso with steamed milk foam',        kdsEnabled: true },
+  { name: 'Latte',             price: 130, catName: 'Coffee',      cuisineName: 'Italian',     desc: 'Smooth espresso with lots of milk',      kdsEnabled: true },
+  { name: 'Americano',         price: 100, catName: 'Coffee',      cuisineName: 'Italian',     desc: 'Espresso diluted with hot water',        kdsEnabled: true },
+  { name: 'Cold Brew',         price: 150, catName: 'Coffee',      cuisineName: 'Continental', desc: 'Slow-steeped cold coffee',               kdsEnabled: true },
+  // Tea
+  { name: 'Masala Chai',       price: 60,  catName: 'Tea',         cuisineName: 'Indian',      desc: 'Spiced Indian milk tea',                 kdsEnabled: true },
+  { name: 'Green Tea',         price: 70,  catName: 'Tea',         cuisineName: 'Indian',      desc: 'Light and refreshing green tea',         kdsEnabled: true },
+  { name: 'Lemon Iced Tea',    price: 90,  catName: 'Tea',         cuisineName: 'Continental', desc: 'Chilled tea with lemon',                 kdsEnabled: true },
+  { name: 'Chamomile Tea',     price: 80,  catName: 'Tea',         cuisineName: 'Continental', desc: 'Soothing herbal chamomile',              kdsEnabled: false },
+  // Bakery
+  { name: 'Butter Croissant',  price: 90,  catName: 'Bakery',      cuisineName: 'Continental', desc: 'Flaky, buttery French croissant',        kdsEnabled: true },
+  { name: 'Blueberry Muffin',  price: 80,  catName: 'Bakery',      cuisineName: 'Continental', desc: 'Moist muffin bursting with blueberries', kdsEnabled: true },
+  { name: 'Banana Bread',      price: 70,  catName: 'Bakery',      cuisineName: 'Continental', desc: 'Homestyle banana loaf slice',            kdsEnabled: true },
+  { name: 'Cinnamon Roll',     price: 110, catName: 'Bakery',      cuisineName: 'Indian',      desc: 'Soft roll with cinnamon glaze',          kdsEnabled: true },
+  // Main Course
+  { name: 'Club Sandwich',     price: 220, catName: 'Main Course', cuisineName: 'Continental', desc: 'Triple-decker with chicken & veggies',   kdsEnabled: true },
+  { name: 'Margherita Pizza',  price: 280, catName: 'Main Course', cuisineName: 'Italian',     desc: 'Classic tomato & mozzarella pizza',      kdsEnabled: true },
+  { name: 'Pasta Arrabbiata',  price: 240, catName: 'Main Course', cuisineName: 'Italian',     desc: 'Spicy tomato pasta',                     kdsEnabled: true },
+  { name: 'Caesar Salad',      price: 180, catName: 'Main Course', cuisineName: 'Continental', desc: 'Romaine, croutons, Caesar dressing',     kdsEnabled: true },
+  { name: 'Grilled Paneer',    price: 260, catName: 'Main Course', cuisineName: 'Indian',      desc: 'Marinated paneer with mint chutney',     kdsEnabled: true },
+  // Desserts
+  { name: 'Chocolate Lava Cake', price: 160, catName: 'Desserts', cuisineName: 'Continental', desc: 'Warm cake with molten chocolate centre',  kdsEnabled: true },
+  { name: 'Cheesecake',        price: 150, catName: 'Desserts',    cuisineName: 'Continental', desc: 'Classic New York-style cheesecake',      kdsEnabled: true },
+  { name: 'Tiramisu',          price: 170, catName: 'Desserts',    cuisineName: 'Italian',     desc: 'Italian coffee-flavoured dessert',       kdsEnabled: true },
+  { name: 'Brownie',           price: 100, catName: 'Desserts',    cuisineName: 'Indian',      desc: 'Fudgy chocolate brownie with nuts',      kdsEnabled: true },
+];
+
 async function main() {
   console.log('Seeding database...');
 
@@ -57,13 +87,28 @@ async function main() {
   }
   console.log('Categories seeded:', createdCategories.map(c => c.name));
 
-  // Create products (skip if already exist)
-  const existingProducts = await prisma.product.findMany();
-  let burgerProduct = existingProducts.find(p => p.name === 'Club Sandwich');
+  // Upsert cuisines
+  const cuisineNames = ['Italian', 'Indian', 'Continental'];
+  const createdCuisines = [];
+  for (const cname of cuisineNames) {
+    const c = await prisma.cuisine.upsert({
+      where: { name: cname },
+      update: {},
+      create: { name: cname },
+    });
+    createdCuisines.push(c);
+  }
+  console.log('Cuisines seeded:', createdCuisines.map(c => c.name));
 
-  if (existingProducts.length === 0) {
+  // Products — skip if already populated (e.g. loaded from MySQL Workbench SQL)
+  const productCount = await prisma.product.count();
+  let burgerProduct = null;
+
+  if (productCount === 0) {
+    // Fresh DB — seed from productsData array
     for (const prod of productsData) {
       const cat = createdCategories.find(c => c.name === prod.catName);
+      const cuisine = createdCuisines.find(c => c.name === prod.cuisineName);
       if (cat) {
         const created = await prisma.product.create({
           data: {
@@ -73,16 +118,17 @@ async function main() {
             kdsEnabled: prod.kdsEnabled ?? true,
             isActive: true,
             categoryId: cat.id,
+            cuisineId: cuisine?.id ?? null,
           },
         });
         if (prod.name === 'Club Sandwich') burgerProduct = created;
       }
     }
-    console.log('Products seeded!');
+    console.log('Products seeded from productsData!');
   } else {
-    console.log('Products already exist, skipping.');
-    // Make sure isActive is set
-    await prisma.product.updateMany({ data: { isActive: true } });
+    console.log(`Products already exist (${productCount} rows) — skipping product seed.`);
+    // Try to find Club Sandwich for variants/addons demo
+    burgerProduct = await prisma.product.findFirst({ where: { name: 'Club Sandwich' } });
   }
 
   // Add variants + addons to Burger/Sandwich product (demo for self-order)

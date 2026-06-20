@@ -95,7 +95,7 @@ function CouponModal({
               <select value={type} onChange={(e) => setType(e.target.value)}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold focus:outline-none focus:border-purple-500">
                 <option value="PERCENTAGE">Percentage (%)</option>
-                <option value="FLAT">Flat ($)</option>
+                <option value="FLAT">Flat (₹)</option>
               </select>
             </div>
           </div>
@@ -107,7 +107,7 @@ function CouponModal({
                 className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-purple-500" required />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-slate-400 font-bold uppercase tracking-wider">Min Spend ($)</label>
+              <label className="text-xs text-slate-400 font-bold uppercase tracking-wider">Min Spend (₹)</label>
               <input type="number" value={minSpend} onChange={(e) => setMinSpend(e.target.value)}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-purple-500" />
             </div>
@@ -216,7 +216,7 @@ function PromotionModal({
             </div>
             <div className="space-y-1">
               <label className="text-xs text-slate-400 font-bold uppercase tracking-wider">
-                {scope === 'PRODUCT' ? 'Min Quantity' : 'Min Order ($)'}
+                {scope === 'PRODUCT' ? 'Min Quantity' : 'Min Order (₹)'}
               </label>
               {scope === 'PRODUCT' ? (
                 <input type="number" value={minQuantity} onChange={(e) => setMinQuantity(e.target.value)}
@@ -241,7 +241,7 @@ function PromotionModal({
               <select value={type} onChange={(e) => setType(e.target.value)}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold focus:outline-none focus:border-purple-500">
                 <option value="PERCENTAGE">Percentage (%)</option>
-                <option value="FLAT">Flat ($)</option>
+                <option value="FLAT">Flat (₹)</option>
               </select>
             </div>
           </div>
@@ -334,9 +334,9 @@ export default function AdminCouponsPromotionsPage() {
               <tr key={c.id} className="hover:bg-slate-50/50 transition">
                 <td className="px-6 py-3 font-black text-slate-700">{c.code}</td>
                 <td className="px-6 py-3 font-bold text-slate-700">
-                  {c.type === 'PERCENTAGE' ? `${c.discount}%` : `$${c.discount.toFixed(2)}`}
+                  {c.type === 'PERCENTAGE' ? `${c.discount}%` : `₹${c.discount.toFixed(2)}`}
                 </td>
-                <td className="px-6 py-3 text-sm text-slate-500">${c.minSpend.toFixed(2)}</td>
+                <td className="px-6 py-3 text-sm text-slate-500">₹{c.minSpend.toFixed(2)}</td>
                 <td className="px-6 py-3 text-xs text-slate-500">{new Date(c.expiry).toLocaleDateString()}</td>
                 <td className="px-6 py-3"><StatusBadge active={c.isActive} /></td>
                 <td className="px-6 py-3 text-right space-x-2">
@@ -396,10 +396,10 @@ export default function AdminCouponsPromotionsPage() {
                 <td className="px-6 py-3 text-xs text-slate-500 font-semibold">
                   {p.scope === 'PRODUCT'
                     ? p.minQuantity ? `≥ ${p.minQuantity} qty` : '—'
-                    : p.minOrderAmount ? `≥ $${p.minOrderAmount}` : '—'}
+                    : p.minOrderAmount ? `≥ ₹${p.minOrderAmount}` : '—'}
                 </td>
                 <td className="px-6 py-3 font-bold text-slate-700">
-                  {p.type === 'PERCENTAGE' ? `${p.discount}%` : `$${p.discount.toFixed(2)}`}
+                  {p.type === 'PERCENTAGE' ? `${p.discount}%` : `₹${p.discount.toFixed(2)}`}
                 </td>
                 <td className="px-6 py-3"><StatusBadge active={p.isActive} /></td>
                 <td className="px-6 py-3 text-right space-x-2">

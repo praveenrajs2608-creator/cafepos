@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Completed Revenue</h3>
           <p className="text-3xl font-black text-slate-800 mt-2">
-            ${reports?.totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+            ₹{reports?.totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
           </p>
           <span className="text-xs text-green-500 font-bold mt-1 block">↑ 12.5% vs yesterday</span>
         </div>
@@ -52,7 +52,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Average Transaction</h3>
           <p className="text-3xl font-black text-slate-800 mt-2">
-            $
+            ₹
             {reports && reports.totalOrders > 0
               ? (reports.totalSales / reports.totalOrders).toFixed(2)
               : '0.00'}
@@ -90,7 +90,7 @@ export default function AdminDashboardPage() {
               <tr key={index} className="hover:bg-slate-50/50 transition">
                 <td className="px-6 py-4 font-bold text-slate-700">{item.name}</td>
                 <td className="px-6 py-4 font-extrabold text-slate-700 text-center">{item.quantity}</td>
-                <td className="px-6 py-4 font-black text-purple-600 text-right">${item.revenue.toFixed(2)}</td>
+                <td className="px-6 py-4 font-black text-purple-600 text-right">₹{item.revenue.toFixed(2)}</td>
               </tr>
             ))}
             {(!reports?.bestSellers || reports.bestSellers.length === 0) && (

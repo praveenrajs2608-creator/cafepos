@@ -49,7 +49,7 @@ export default function POSOrdersPage() {
                 <td className="px-6 py-4 font-bold text-slate-700">Order #{o.number}</td>
                 <td className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{o.type}</td>
                 <td className="px-6 py-4 text-sm font-semibold text-slate-500">{o.table ? o.table.name : 'Take Away'}</td>
-                <td className="px-6 py-4 font-extrabold text-purple-600">${o.total.toFixed(2)}</td>
+                <td className="px-6 py-4 font-extrabold text-purple-600">₹{o.total.toFixed(2)}</td>
                 <td className="px-6 py-4 text-xs font-semibold text-slate-400">
                   {new Date(o.createdAt).toLocaleTimeString()}
                 </td>

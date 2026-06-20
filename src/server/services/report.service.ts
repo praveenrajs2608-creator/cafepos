@@ -26,16 +26,22 @@ export class ReportService {
     const totalSales = orders.reduce((acc, order) => acc + order.total, 0);
     const totalOrders = orders.length;
 
-    // Calculate best selling products
+    // Calculate best selling products — revenue uses discounted bill values
     const productSales: Record<string, { name: string; quantity: number; revenue: number }> = {};
     orders.forEach((order) => {
+      // Proportional discount factor: how much of the subtotal was actually billed
+      const discountFactor = order.subtotal > 0
+        ? (order.subtotal - order.discount) / order.subtotal
+        : 1;
+
       order.items.forEach((item) => {
         const prod = item.product;
         if (!productSales[prod.id]) {
           productSales[prod.id] = { name: prod.name, quantity: 0, revenue: 0 };
         }
         productSales[prod.id].quantity += item.quantity;
-        productSales[prod.id].revenue += item.quantity * item.price;
+        // Scale item revenue by the discount factor applied to the whole order
+        productSales[prod.id].revenue += item.quantity * item.price * discountFactor;
       });
     });
 

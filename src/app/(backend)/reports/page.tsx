@@ -24,7 +24,7 @@ export default function AdminReportsPage() {
           <div className="bg-slate-50 p-4 rounded-xl text-center">
             <span className="text-xs font-bold text-slate-400 uppercase block">Total Sales</span>
             <span className="text-2xl font-black text-slate-800 mt-1 block">
-              ${report?.totalSales.toFixed(2) || '0.00'}
+              ₹{report?.totalSales.toFixed(2) || '0.00'}
             </span>
           </div>
           <div className="bg-slate-50 p-4 rounded-xl text-center">

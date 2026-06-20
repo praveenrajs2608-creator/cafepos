@@ -7,10 +7,10 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
 
-    // Simple CSV generator
-    let csv = 'Order ID,Number,Status,Type,Total,Date\n';
+    // Simple CSV generator — Total is the post-discount billed amount
+    let csv = 'Order ID,Number,Status,Type,Subtotal,Discount,Tax,Total,Date\n';
     orders.forEach((o) => {
-      csv += `"${o.id}",${o.number},"${o.status}","${o.type}",${o.total},"${o.createdAt.toISOString()}"\n`;
+      csv += `"${o.id}",${o.number},"${o.status}","${o.type}",${o.subtotal},${o.discount},${o.tax},${o.total},"${o.createdAt.toISOString()}"\n`;
     });
 
     const response = new NextResponse(csv, {

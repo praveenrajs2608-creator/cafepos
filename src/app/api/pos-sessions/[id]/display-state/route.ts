@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     const activeOrder = await prisma.order.findFirst({
       where: {
         sessionId,
-        status: { notIn: ['COMPLETED', 'CANCELLED'] },
+        status: 'PENDING',
       },
       include: {
         items: {
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     const lastPaidOrder = await prisma.order.findFirst({
       where: {
         sessionId,
-        status: 'COMPLETED',
+        status: { notIn: ['PENDING', 'CANCELLED'] },
       },
       orderBy: { updatedAt: 'desc' },
     });

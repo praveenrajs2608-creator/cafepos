@@ -57,7 +57,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
               <span>
                 {item.name} x {item.quantity}
               </span>
-              <span>${item.total.toFixed(2)}</span>
+              <span>₹{item.total.toFixed(2)}</span>
             </div>
           ))}
         </div>
@@ -65,21 +65,21 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
         <div className="space-y-1.5 pb-4 border-b border-dashed border-slate-200">
           <div className="flex justify-between">
             <span>Subtotal</span>
-            <span>${receipt.subtotal.toFixed(2)}</span>
+            <span>₹{receipt.subtotal.toFixed(2)}</span>
           </div>
           {receipt.discount > 0 && (
             <div className="flex justify-between text-green-600 font-bold">
               <span>Discount</span>
-              <span>-${receipt.discount.toFixed(2)}</span>
+              <span>-₹{receipt.discount.toFixed(2)}</span>
             </div>
           )}
           <div className="flex justify-between">
             <span>Taxes (8%)</span>
-            <span>${receipt.tax.toFixed(2)}</span>
+            <span>₹{receipt.tax.toFixed(2)}</span>
           </div>
           <div className="flex justify-between font-extrabold text-slate-800 pt-1.5">
             <span>Grand Total</span>
-            <span>${receipt.total.toFixed(2)}</span>
+            <span>₹{receipt.total.toFixed(2)}</span>
           </div>
         </div>
 
