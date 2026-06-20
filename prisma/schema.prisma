@@ -1,0 +1,187 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   // "ADMIN" | "CASHIER" | "KITCHEN" | "CUSTOMER"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sessions  POSSession[]
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  color     String?   // hex color for category tab
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id          String          @id @default(uuid())
+  name        String
+  price       Float
+  image       String?
+  description String?
+  kdsEnabled  Boolean         @default(true)
+  isActive    Boolean         @default(true)
+  categoryId  String
+  category    Category        @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+  variants    ProductVariant[]
+  addons      ProductAddon[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model ProductVariant {
+  id         String  @id @default(uuid())
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name       String
+  priceDelta Float   @default(0.0)
+}
+
+model ProductAddon {
+  id         String  @id @default(uuid())
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name       String
+  priceDelta Float   @default(0.0)
+}
+
+model Floor {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  tables    Table[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Table {
+  id        String   @id @default(uuid())
+  name      String
+  floorId   String
+  floor     Floor    @relation(fields: [floorId], references: [id])
+  token     String   @unique // For self-ordering URL
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model POSSession {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  status     String    // "OPEN" | "CLOSED"
+  openTime   DateTime  @default(now())
+  closeTime  DateTime?
+  startCash  Float
+  endCash    Float?
+  orders     Order[]
+}
+
+model Order {
+  id                String      @id @default(uuid())
+  number            Int         @unique
+  status            String      // "DRAFT" | "PENDING" | "SENT_TO_KITCHEN" | "PREPARING" | "READY" | "COMPLETED" | "CANCELLED"
+  type              String      // "DINE_IN" | "TAKE_AWAY" | "DELIVERY"
+  source            String      @default("POS") // "POS" | "SELF_ORDER"
+  tableId           String?
+  table             Table?      @relation(fields: [tableId], references: [id])
+  sessionId         String?
+  session           POSSession? @relation(fields: [sessionId], references: [id])
+  customerId        String?
+  customer          Customer?   @relation(fields: [customerId], references: [id])
+  items             OrderItem[]
+  payments          Payment[]
+  couponId          String?
+  coupon            Coupon?     @relation(fields: [couponId], references: [id])
+  subtotal          Float
+  discount          Float       @default(0.0)
+  tax               Float
+  total             Float
+  sentToKitchenAt   DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model OrderItem {
+  id           String   @id @default(uuid())
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id])
+  quantity     Int
+  price        Float    // effective price including variant+addon deltas
+  status       String   @default("PENDING")
+  kitchenStage String   @default("TO_COOK")
+  itemDone     Boolean  @default(false)
+  note         String?
+  variantName  String?  // snapshot of selected variant name
+  addonsJson   String?  // JSON: [{name, priceDelta}] - snapshot of selected addons
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String?  @unique
+  email     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id])
+  amount        Float
+  method        String
+  status        String
+  transactionId String?
+  createdAt     DateTime @default(now())
+}
+
+model Coupon {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  discount    Float
+  type        String   // "PERCENTAGE" | "FLAT"
+  minSpend    Float    @default(0.0)
+  expiry      DateTime
+  isActive    Boolean  @default(true)
+  orders      Order[]
+}
+
+model Promotion {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  discount       Float
+  type           String   // "PERCENTAGE" | "FLAT"
+  scope          String   @default("ORDER")
+  minQuantity    Int?
+  minOrderAmount Float?
+  isActive       Boolean  @default(true)
+}
+
+model SelfOrderingConfig {
+  id              String  @id @default(uuid())
+  brandName       String  @default("Cafe")
+  brandColor      String  @default("#7c3aed")
+  logoUrl         String?
+  isEnabled       Boolean @default(true)
+  welcomeMessage  String?
+}
