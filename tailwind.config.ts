@@ -12,6 +12,32 @@ const config: Config = {
         sans: ['Outfit', 'sans-serif'],
       },
       colors: {
+        slate: {
+          50: "#e1d4c2",    // The lite color for background
+          100: "#d9cab5",
+          200: "#cfbfa6",
+          300: "#c0af93",
+          400: "#9e8e75",
+          500: "#86755d",
+          600: "#6e473b",    // The dark color
+          700: "#5a3a30",
+          800: "#492f27",
+          900: "#3d2720",
+          950: "#2d1c17",
+        },
+        purple: {
+          50: "#fdf8f6",
+          100: "#fbeee9",
+          200: "#f6ded4",
+          300: "#ecc2b4",
+          400: "#dd9b86",
+          500: "#ca7156",
+          600: "#6e473b", // Primary accent matching dark color
+          700: "#5a3a30",
+          800: "#492f27",
+          900: "#3d2720",
+          950: "#2d1c17",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
