@@ -159,14 +159,14 @@ export default function KitchenDisplayPage() {
   }, []);
 
   const TABS: { key: StageTab; label: string; count: number; color: string }[] = [
-    { key: 'ALL',       label: 'All',       count: counts.all,       color: 'text-slate-300' },
-    { key: 'TO_COOK',   label: 'To Cook',   count: counts.toCook,    color: 'text-amber-400' },
-    { key: 'PREPARING', label: 'Preparing', count: counts.preparing,  color: 'text-blue-400' },
-    { key: 'COMPLETED', label: 'Completed', count: counts.completed,  color: 'text-emerald-400' },
+    { key: 'ALL',       label: 'All',       count: counts.all,       color: 'text-slate-700' },
+    { key: 'TO_COOK',   label: 'To Cook',   count: counts.toCook,    color: 'text-amber-700' },
+    { key: 'PREPARING', label: 'Preparing', count: counts.preparing,  color: 'text-blue-700' },
+    { key: 'COMPLETED', label: 'Completed', count: counts.completed,  color: 'text-emerald-700' },
   ];
 
   return (
-    <div className="h-screen bg-slate-900 text-white flex flex-col overflow-hidden">
+    <div className="h-screen bg-slate-50 text-slate-900 flex flex-col overflow-hidden">
       {/* Top bar */}
       <KDSTopBar onToggleSidebar={() => setSidebarOpen((v) => !v)} sidebarOpen={sidebarOpen} />
 
@@ -174,19 +174,19 @@ export default function KitchenDisplayPage() {
       <KDSStats />
 
       {/* Stage tabs + search + pagination */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex-shrink-0 flex-wrap">
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-100/50 border-b border-slate-200 flex-shrink-0 flex-wrap">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => { setActiveTab(tab.key); setPage(1); }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wide transition
               ${activeTab === tab.key
-                ? 'bg-slate-700 text-white shadow-inner'
-                : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'}`}
+                ? 'bg-slate-600 text-slate-50 shadow-inner'
+                : 'text-slate-600 hover:text-slate-800 hover:bg-slate-200'}`}
           >
             {tab.label}
             <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center
-              ${activeTab === tab.key ? `${tab.color} bg-slate-800` : 'bg-slate-800 text-slate-500'}`}>
+              ${activeTab === tab.key ? `${tab.color} bg-slate-50` : 'bg-slate-200 text-slate-500'}`}>
               {tab.count}
             </span>
           </button>
@@ -194,7 +194,7 @@ export default function KitchenDisplayPage() {
 
         {/* Search */}
         <div className="flex-1 max-w-xs ml-2 relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
           <input
@@ -202,24 +202,24 @@ export default function KitchenDisplayPage() {
             value={searchRaw}
             onChange={(e) => setSearchRaw(e.target.value)}
             placeholder="Search order # or product…"
-            className="w-full bg-slate-800 border border-slate-700 rounded-full pl-8 pr-4 py-1.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-500 transition"
+            className="w-full bg-white border border-slate-200 rounded-full pl-8 pr-4 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-slate-400 transition"
           />
         </div>
 
         {/* Pagination indicator */}
-        <div className="ml-auto flex items-center gap-2 text-xs text-slate-500 font-bold">
+        <div className="ml-auto flex items-center gap-2 text-xs text-slate-600 font-bold">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage <= 1}
-            className="w-6 h-6 rounded-lg hover:bg-slate-800 flex items-center justify-center disabled:opacity-30 transition"
+            className="w-6 h-6 rounded-lg hover:bg-slate-200 flex items-center justify-center disabled:opacity-30 transition"
           >‹</button>
-          <span className="text-slate-400 min-w-[40px] text-center">
+          <span className="text-slate-600 min-w-[40px] text-center">
             {((safePage - 1) * CARDS_PER_PAGE) + 1}–{Math.min(safePage * CARDS_PER_PAGE, filteredOrders.length)}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={safePage >= totalPages}
-            className="w-6 h-6 rounded-lg hover:bg-slate-800 flex items-center justify-center disabled:opacity-30 transition"
+            className="w-6 h-6 rounded-lg hover:bg-slate-200 flex items-center justify-center disabled:opacity-30 transition"
           >›</button>
         </div>
       </div>
@@ -249,14 +249,14 @@ export default function KitchenDisplayPage() {
             </div>
           ) : pagedOrders.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-4 pb-20">
-              <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-3xl">
                 {activeTab === 'COMPLETED' ? '✅' : '🍳'}
               </div>
               <div>
-                <p className="text-white font-black text-base">
+                <p className="text-slate-900 font-black text-base">
                   {activeTab === 'COMPLETED' ? 'No completed tickets yet' : 'All caught up!'}
                 </p>
-                <p className="text-slate-500 text-sm mt-1">
+                <p className="text-slate-600 text-sm mt-1">
                   {search
                     ? `No tickets match "${searchRaw}"`
                     : activeTab === 'ALL'

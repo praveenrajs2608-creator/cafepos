@@ -23,11 +23,11 @@ export default function KDSStats() {
   }, []);
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2 bg-slate-900/60 border-b border-slate-800/80 flex-shrink-0">
+    <div className="flex items-center gap-3 px-4 py-2 bg-slate-100/50 border-b border-slate-200 flex-shrink-0">
       {/* Ticket count */}
-      <div className="flex items-center gap-2.5 bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2">
+      <div className="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-4 py-2">
         <div className="w-7 h-7 rounded-lg bg-amber-500/20 flex items-center justify-center">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2.5">
             <path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/>
             <path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
             <path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/>
@@ -40,21 +40,21 @@ export default function KDSStats() {
         </div>
         <div>
           <p className="text-slate-500 text-[10px] font-black uppercase tracking-wide">Today's Tickets</p>
-          <p className="text-white font-black text-lg leading-tight">{stats.ticketCount}</p>
+          <p className="text-slate-900 font-black text-lg leading-tight">{stats.ticketCount}</p>
         </div>
       </div>
 
       {/* Avg prep time */}
-      <div className="flex items-center gap-2.5 bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2">
+      <div className="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-4 py-2">
         <div className="w-7 h-7 rounded-lg bg-violet-500/20 flex items-center justify-center">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2.5">
             <circle cx="12" cy="12" r="10"/>
             <polyline points="12 6 12 12 16 14"/>
           </svg>
         </div>
         <div>
           <p className="text-slate-500 text-[10px] font-black uppercase tracking-wide">Avg Prep Time</p>
-          <p className="text-white font-black text-lg leading-tight">
+          <p className="text-slate-900 font-black text-lg leading-tight">
             {stats.avgPrepMinutes > 0 ? `${stats.avgPrepMinutes}m` : '—'}
           </p>
         </div>

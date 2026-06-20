@@ -11,22 +11,22 @@ interface TicketCardProps {
 
 const STAGE_COLORS: Record<string, { card: string; badge: string; badgeText: string; btn: string }> = {
   TO_COOK: {
-    card: 'border-amber-400 bg-amber-400/5',
-    badge: 'bg-amber-400/20 text-amber-300',
+    card: 'border-amber-500 bg-white shadow-sm',
+    badge: 'bg-amber-50 text-amber-700 border border-amber-200',
     badgeText: 'To Cook',
-    btn: 'bg-amber-500 hover:bg-amber-400',
+    btn: 'bg-amber-600 hover:bg-amber-500 text-white',
   },
   PREPARING: {
-    card: 'border-blue-400 bg-blue-400/5',
-    badge: 'bg-blue-400/20 text-blue-300',
+    card: 'border-blue-500 bg-white shadow-sm',
+    badge: 'bg-blue-50 text-blue-700 border border-blue-200',
     badgeText: 'Preparing',
-    btn: 'bg-blue-500 hover:bg-blue-400',
+    btn: 'bg-blue-600 hover:bg-blue-500 text-white',
   },
   COMPLETED: {
-    card: 'border-emerald-500 bg-emerald-500/5',
-    badge: 'bg-emerald-500/20 text-emerald-300',
+    card: 'border-emerald-500 bg-white shadow-sm',
+    badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     badgeText: 'Completed',
-    btn: 'bg-emerald-600 hover:bg-emerald-500',
+    btn: 'bg-emerald-600 hover:bg-emerald-500 text-white',
   },
 };
 
@@ -61,22 +61,22 @@ export default function TicketCard({ order, onAdvanceStage, onToggleItem }: Tick
     <div
       onClick={handleCardClick}
       className={`border-2 rounded-2xl flex flex-col select-none transition-all duration-200 overflow-hidden cursor-pointer
-        ${colors.card} ${stage !== 'COMPLETED' ? 'hover:scale-[1.01] hover:shadow-lg hover:shadow-black/30' : 'opacity-80'}`}
+        ${colors.card} ${stage !== 'COMPLETED' ? 'hover:scale-[1.01] hover:shadow-md' : 'opacity-80'}`}
     >
       {/* Card Header */}
-      <div className="px-4 pt-4 pb-3 border-b border-white/10 flex items-start justify-between gap-2">
+      <div className="px-4 pt-4 pb-3 border-b border-slate-100 flex items-start justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-white font-black text-lg">#{order.number}</span>
+            <span className="text-slate-900 font-black text-lg">#{order.number}</span>
             <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wide ${colors.badge}`}>
               {colors.badgeText}
             </span>
           </div>
-          <p className="text-slate-400 text-xs mt-0.5 font-semibold">
+          <p className="text-slate-500 text-xs mt-0.5 font-semibold">
             {order.table ? `Table ${order.table.name}` : 'Take Away'} &bull; {getElapsed(order.sentToKitchenAt)}
           </p>
         </div>
-        <span className={`text-[10px] font-black px-2 py-1 rounded-lg uppercase tracking-wide bg-slate-800 text-slate-400`}>
+        <span className={`text-[10px] font-black px-2 py-1 rounded-lg uppercase tracking-wide bg-slate-100 text-slate-600`}>
           {order.type === 'DINE_IN' ? 'Dine In' : 'Takeaway'}
         </span>
       </div>
@@ -96,24 +96,24 @@ export default function TicketCard({ order, onAdvanceStage, onToggleItem }: Tick
             }}
             className={`flex items-start gap-3 rounded-xl px-3 py-2 cursor-pointer transition-all
               ${item.itemDone
-                ? 'bg-emerald-900/20 hover:bg-emerald-900/30'
-                : 'bg-slate-800/60 hover:bg-slate-700/60'
+                ? 'bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-100'
+                : 'bg-slate-50 hover:bg-slate-100/80 border border-slate-100'
               }`}
           >
             {/* Done indicator */}
             <div className={`w-5 h-5 mt-0.5 rounded-md flex items-center justify-center flex-shrink-0 border transition
-              ${item.itemDone ? 'bg-emerald-500 border-emerald-500' : 'border-slate-600'}`}>
+              ${item.itemDone ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 bg-white'}`}>
               {item.itemDone && <span className="text-white text-[10px] font-black">✓</span>}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-2">
-                <span className="text-slate-400 text-xs font-black">{item.quantity}×</span>
-                <span className={`text-sm font-bold truncate ${item.itemDone ? 'line-through text-slate-500' : 'text-white'}`}>
+                <span className="text-slate-500 text-xs font-black">{item.quantity}×</span>
+                <span className={`text-sm font-bold truncate ${item.itemDone ? 'line-through text-slate-400' : 'text-slate-800'}`}>
                   {item.product.name}
                 </span>
               </div>
               {item.note && (
-                <p className="text-amber-400 text-[10px] font-semibold mt-0.5 ml-5">{item.note}</p>
+                <p className="text-amber-700 text-[10px] font-semibold mt-0.5 ml-5">{item.note}</p>
               )}
             </div>
           </div>

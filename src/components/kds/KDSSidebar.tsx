@@ -31,10 +31,10 @@ function FilterCheckbox({
     <button
       onClick={() => onToggle(item.id)}
       className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-all
-        ${selected ? 'bg-amber-500/20 text-amber-300' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'}`}
+        ${selected ? 'bg-amber-100 text-amber-800' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`}
     >
       <div className={`w-4 h-4 rounded-md border flex-shrink-0 flex items-center justify-center transition
-        ${selected ? 'bg-amber-500 border-amber-500' : 'border-slate-600'}`}>
+        ${selected ? 'bg-amber-600 border-amber-600' : 'border-slate-300 bg-white'}`}>
         {selected && <span className="text-white text-[9px] font-black">✓</span>}
       </div>
       <span className="text-xs font-semibold truncate">{item.name}</span>
@@ -56,7 +56,7 @@ export default function KDSSidebar({
 
   return (
     <aside
-      className={`flex-shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden transition-all duration-300 ease-in-out
+      className={`flex-shrink-0 bg-white border-r border-slate-200 flex flex-col overflow-hidden transition-all duration-300 ease-in-out
         ${open ? 'w-52' : 'w-0'}`}
     >
       <div className="flex-1 overflow-y-auto p-3 space-y-4 min-w-[208px]">
@@ -67,8 +67,8 @@ export default function KDSSidebar({
             disabled={!hasFilters}
             className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-black uppercase tracking-wide transition
               ${hasFilters
-                ? 'bg-rose-500/20 text-rose-400 hover:bg-rose-500/30'
-                : 'bg-slate-800/50 text-slate-600 cursor-not-allowed'}`}
+                ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
+                : 'bg-slate-100 text-slate-400 cursor-not-allowed'}`}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>

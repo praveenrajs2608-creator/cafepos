@@ -9,16 +9,16 @@ interface KDSTopBarProps {
 
 export default function KDSTopBar({ onToggleSidebar, sidebarOpen }: KDSTopBarProps) {
   return (
-    <header className="h-14 bg-slate-950 border-b border-slate-800 flex items-center px-4 gap-3 flex-shrink-0 z-10">
+    <header className="h-14 bg-white border-b border-slate-200 flex items-center px-4 gap-3 flex-shrink-0 z-10">
       {/* Hamburger */}
       <button
         onClick={onToggleSidebar}
-        className="w-8 h-8 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-slate-800 transition"
+        className="w-8 h-8 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-slate-100 transition"
         title="Toggle Filters"
       >
-        <span className={`block w-4 h-0.5 bg-slate-400 transition-all ${sidebarOpen ? 'rotate-45 translate-y-2' : ''}`} />
-        <span className={`block w-4 h-0.5 bg-slate-400 transition-all ${sidebarOpen ? 'opacity-0' : ''}`} />
-        <span className={`block w-4 h-0.5 bg-slate-400 transition-all ${sidebarOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+        <span className={`block w-4 h-0.5 bg-slate-600 transition-all ${sidebarOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`block w-4 h-0.5 bg-slate-600 transition-all ${sidebarOpen ? 'opacity-0' : ''}`} />
+        <span className={`block w-4 h-0.5 bg-slate-600 transition-all ${sidebarOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
       {/* Logo + Label */}
@@ -26,16 +26,16 @@ export default function KDSTopBar({ onToggleSidebar, sidebarOpen }: KDSTopBarPro
         <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
           <span className="text-white text-sm">☕</span>
         </div>
-        <span className="text-white font-black text-sm tracking-wide">CafePOS</span>
-        <span className="text-slate-600 font-black text-sm">|</span>
-        <span className="text-amber-400 font-black text-sm tracking-widest uppercase">KDS</span>
+        <span className="text-slate-900 font-black text-sm tracking-wide">CafePOS</span>
+        <span className="text-slate-300 font-black text-sm">|</span>
+        <span className="text-amber-600 font-black text-sm tracking-widest uppercase">KDS</span>
       </div>
 
       {/* Spacer */}
       <div className="flex-1" />
 
       {/* Icon buttons */}
-      <button className="w-8 h-8 rounded-lg hover:bg-slate-800 transition flex items-center justify-center text-slate-400 hover:text-white" title="Refresh">
+      <button className="w-8 h-8 rounded-lg hover:bg-slate-100 transition flex items-center justify-center text-slate-500 hover:text-slate-800" title="Refresh">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
           <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
           <path d="M21 3v5h-5"/>
@@ -44,7 +44,7 @@ export default function KDSTopBar({ onToggleSidebar, sidebarOpen }: KDSTopBarPro
         </svg>
       </button>
 
-      <button className="w-8 h-8 rounded-lg hover:bg-slate-800 transition flex items-center justify-center text-slate-400 hover:text-white" title="Full Screen">
+      <button className="w-8 h-8 rounded-lg hover:bg-slate-100 transition flex items-center justify-center text-slate-500 hover:text-slate-800" title="Full Screen">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
           <polyline points="15 3 21 3 21 9"/>
           <polyline points="9 21 3 21 3 15"/>
