@@ -60,8 +60,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(roleHome(role), request.url));
   }
 
-  if (isPOSPath && role !== 'CASHIER' && role !== 'ADMIN') {
-    // KITCHEN trying to access POS → send to KDS
+  if (isPOSPath && role !== 'CASHIER' && role !== 'ADMIN' && role !== 'KITCHEN') {
+    // Any other role trying to access POS → send to their home
     return NextResponse.redirect(new URL(roleHome(role), request.url));
   }
 

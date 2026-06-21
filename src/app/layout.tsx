@@ -3,8 +3,8 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Premium Cafe POS System",
-  description: "Next-gen Point of Sale, KDS, and self-ordering platform for modern cafes.",
+  title: "Savora Atlas",
+  description: "Next-gen Point of Sale, KDS, and self-ordering platform by Savora Atlas.",
 };
 
 export default function RootLayout({

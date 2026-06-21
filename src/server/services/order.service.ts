@@ -12,26 +12,52 @@ export class OrderService {
     customerPhone?: string;
     customerEmail?: string;
   }) {
-    // 1. Calculate totals
+    // 1. Validate items and get DB prices
+    let subtotal = 0;
+    const validatedItems = [];
+
+    for (const item of data.items) {
+      if (item.quantity <= 0) {
+        throw new Error('Quantity must be greater than zero.');
+      }
+      const dbProduct = await prisma.product.findUnique({ where: { id: item.productId } });
+      if (!dbProduct) throw new Error(`Product ${item.productId} not found`);
+
+      subtotal += dbProduct.price * item.quantity;
+      validatedItems.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: dbProduct.price, // Trust DB price, not client payload
+        note: item.note,
+        status: 'PENDING',
+      });
+    }
+
+    // 2. Calculate discounts and totals
     let discount = 0;
     let couponId: string | undefined;
-
-    const subtotal = data.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     if (data.couponCode) {
       const coupon = await prisma.coupon.findUnique({
         where: { code: data.couponCode, isActive: true },
       });
-      if (coupon && subtotal >= coupon.minSpend) {
+      // Add expiry check
+      if (coupon && coupon.expiry > new Date() && subtotal >= coupon.minSpend) {
         couponId = coupon.id;
         discount = coupon.type === 'PERCENTAGE' ? subtotal * (coupon.discount / 100) : coupon.discount;
       }
     }
 
-    const tax = (subtotal - discount) * 0.08;
-    const total = subtotal - discount + tax;
+    // Floor the discounted total to 0 to prevent negative totals
+    const totalAfterDiscount = Math.max(0, subtotal - discount);
+    
+    // Ensure discount recorded doesn't exceed subtotal
+    discount = Math.min(discount, subtotal);
 
-    // 2. Upsert customer if name + phone provided
+    const tax = totalAfterDiscount * 0.08;
+    const total = totalAfterDiscount + tax;
+
+    // 3. Upsert customer if name + phone provided
     let customerId: string | undefined;
     if (data.customerName && data.customerPhone && data.customerPhone.trim().length > 0) {
       const customer = await prisma.customer.upsert({
@@ -49,7 +75,7 @@ export class OrderService {
       customerId = customer.id;
     }
 
-    // 3. Get incremental order number
+    // 4. Get incremental order number
     const count = await prisma.order.count();
     const orderNumber = count + 1000;
 
@@ -67,13 +93,7 @@ export class OrderService {
         total,
         couponId,
         items: {
-          create: data.items.map(item => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.price,
-            note: item.note,
-            status: 'PENDING',
-          })),
+          create: validatedItems,
         },
       },
       include: {

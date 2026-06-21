@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from '@/hooks/useSession';
@@ -16,6 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Categories', path: '/categories' },
     { name: 'Tables & Floors', path: '/floors-tables' },
     { name: 'User Management', path: '/users' },
+    { name: 'Customers', path: '/manage-customers' },
     { name: 'Coupon Codes', path: '/coupons-promotions' },
     { name: 'Self Ordering', path: '/self-ordering' },
     { name: 'Bookings', path: '/booking' },
@@ -27,9 +29,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-white flex flex-col border-r border-slate-800">
-        <div className="p-6 border-b border-slate-800">
-          <span className="text-xl font-black text-purple-400 tracking-wider">CAFE ADMIN</span>
-          <span className="text-xs text-slate-400 font-bold block mt-1">MANAGEMENT CONSOLE</span>
+        <div className="p-6 border-b border-slate-800 flex items-center gap-3">
+          <Image src="/logo-48.png" alt="Savora Atlas" width={48} height={48} className="object-contain" />
+          <div>
+            <span className="text-sm font-black text-white tracking-wide block">Savora Atlas</span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Management Console</span>
+          </div>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">

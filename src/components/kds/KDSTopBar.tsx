@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 interface KDSTopBarProps {
   onToggleSidebar: () => void;
@@ -23,10 +24,7 @@ export default function KDSTopBar({ onToggleSidebar, sidebarOpen }: KDSTopBarPro
 
       {/* Logo + Label */}
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
-          <span className="text-white text-sm">☕</span>
-        </div>
-        <span className="text-slate-900 font-black text-sm tracking-wide">CafePOS</span>
+        <Image src="/logo-48.png" alt="Savora Atlas" width={48} height={48} className="object-contain" />
         <span className="text-slate-300 font-black text-sm">|</span>
         <span className="text-amber-600 font-black text-sm tracking-widest uppercase">KDS</span>
       </div>

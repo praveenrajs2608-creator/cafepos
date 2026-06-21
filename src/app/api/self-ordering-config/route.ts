@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 let selfOrderingConfig = {
   allowCustomerCheckout: true,
   taxRatePercent: 8,
-  welcomePromoTitle: 'Welcome to Cafe POS!',
+  welcomePromoTitle: 'Welcome to Savora Atlas!',
   themeColor: '#FF6B6B',
 };
 

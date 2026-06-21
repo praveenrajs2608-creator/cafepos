@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSession } from '@/hooks/useSession';
 
@@ -91,11 +92,8 @@ export default function CustomerDashboardPage() {
       {/* Premium Header */}
       <header className="bg-white border-b border-slate-200/60 sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-md">
-              <span className="text-white text-sm">☕</span>
-            </div>
-            <span className="text-slate-900 font-black text-lg tracking-wide">CafePOS</span>
+          <div className="flex items-center">
+            <Image src="/logo-96.png" alt="Savora Atlas" width={96} height={96} className="object-contain" />
           </div>
 
           <div className="flex items-center gap-4">

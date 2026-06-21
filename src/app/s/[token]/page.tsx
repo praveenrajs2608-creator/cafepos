@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Pusher from 'pusher-js';
 import { calculateOrderTotals } from '@/lib/pricing';
 
@@ -286,7 +287,9 @@ export default function SelfOrderPage({ params }: { params: { token: string } })
       style={{ background: `linear-gradient(135deg, ${brand}ee 0%, ${brand}88 100%)` }}>
       <div />
       <div className="text-center space-y-6 z-10">
-        <div className="w-24 h-24 rounded-3xl mx-auto bg-white/20 backdrop-blur-sm flex items-center justify-center text-5xl shadow-2xl">☕</div>
+        <div className="w-32 h-32 rounded-3xl mx-auto bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-2xl overflow-hidden">
+          <Image src="/logo-1080.png" alt="Savora Atlas" width={120} height={120} className="object-contain" />
+        </div>
         <div>
           <h1 className="text-4xl font-black text-white">{config.brandName}</h1>
           <p className="text-white/70 mt-2 font-semibold">{table.name} — {table.floor.name}</p>

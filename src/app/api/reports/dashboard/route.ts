@@ -10,6 +10,11 @@ export async function GET(req: NextRequest) {
     const startDate = startStr ? new Date(startStr) : undefined;
     const endDate = endStr ? new Date(endStr) : undefined;
 
+    // Ensure the end date covers the entire day
+    if (endDate) {
+      endDate.setUTCHours(23, 59, 59, 999);
+    }
+
     const reports = await ReportService.getSalesSummary(startDate, endDate);
     return NextResponse.json({ reports });
   } catch (error: any) {
